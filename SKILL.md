@@ -1,14 +1,9 @@
 ---
 name: analyze-meme-event-coin
 description: >-
-  Analyze a meme coin from a contract address (CA): resolve the chain and canonical token,
-  trace the real-world meme or event behind it, collect fresh authoritative Chinese news about
-  that event even when articles never mention the coin, judge event momentum, compare every
-  same-narrative token to identify stock and flow leadership and diversion, and assess contract,
-  on-chain, liquidity, market-wide, platform, chain, and attention risks. Use when the user gives
-  a CA or asks whether a meme coin is the current leader, whether its story is still developing,
-  whether another coin is capturing the narrative, or whether current crypto events could
-  interrupt the price-attention transmission.
+  Analyze a meme coin from a CA: identify its chain and meme event, track authoritative
+  Chinese news and momentum, compare narrative leaders and diversion, and assess on-chain and
+  market risks.
 ---
 
 # Meme 事件币分析
