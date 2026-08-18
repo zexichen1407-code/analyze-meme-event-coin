@@ -1,4 +1,4 @@
 interface:
-  display_name: "Meme 事件币分析"
-  short_description: "从 CA 追溯现实 Meme 事件、龙头地位与币圈风险"
-  default_prompt: "使用 $analyze-meme-event-coin 根据一个 CA 分析现实 Meme 事件、叙事龙头与币圈风险。"
+  display_name: "Meme 事件叙事分析"
+  short_description: "从 CA 还原 Meme 完整叙事时间线、舆论转折与未来路径"
+  default_prompt: "使用 $analyze-meme-event-coin 根据一个 CA 还原现实 Meme 事件的完整叙事、社交与媒体热度、关键转折和未来路径。"

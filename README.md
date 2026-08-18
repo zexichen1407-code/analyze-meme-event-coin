@@ -1,15 +1,25 @@
-# Meme 事件币分析 Skill
+# Meme 事件叙事分析 Skill
 
-输入一个 Meme coin 的合约地址（CA），让 AI 自动追溯它对应的现实 Meme 或社会事件，并分析：
+输入一个 Meme coin 的合约地址（CA），让 AI 自动追溯它对应的现实 Meme 或社会事件，重点分析：
 
-- 现实事件是否仍在发酵；
-- 国内官方或大型媒体是否出现新的报道；
-- 目标币是否仍是同叙事的存量、增量龙头；
-- 是否有同名币、跨链版本或新币正在分流；
-- 合约、持仓、流动性和成交是否存在风险；
-- 当前币圈重大事件是否会打断注意力与资金传导。
+- 故事最初怎样发生、为什么成为 Meme；
+- 从被嘲讽、质疑、举报或要求下架，到回应、澄清、反转的完整时间线；
+- 国内官方或大型媒体是否出现新的原创报道；
+- 社交媒体讨论是否跨平台扩散，公众现在如何理解这个故事；
+- 目标币是不是当前的叙事/注意力龙头，是否被新版本分流；
+- 接下来可能出现哪些转折，以及什么信号能验证或推翻这些路径；
+- 其他 Meme、名人或社会事件是否正在抢走同一批注意力。
 
-媒体不需要提到这个币。Skill 追踪的是币背后的现实人物、动物、图片、口号或事件，再判断这些新闻是否可能为目标币带来新增注意力。
+媒体不需要提到这个币。Skill 追踪的是币背后的现实人物、动物、图片、口号或事件，再单独判断目标币是否仍占据这个叙事。
+
+## 这个 Skill 不做什么
+
+- 不检查合约权限、持仓集中度、LP、滑点、刷量或链上资金；
+- 不用币价、市值、成交量、买家数或资金流判断热度；
+- 不把新闻热度直接等同于币价上涨；
+- 不提供确定性买卖结论。
+
+CA 只用于确认链、名称、ticker 和现实母题。后续热度判断来自社交媒体与文章的内容变化。
 
 ## 支持的平台
 
@@ -18,7 +28,7 @@
 - Claude Code CLI、桌面端及 IDE；
 - Claude.ai 自定义 Skills。
 
-核心文件 `SKILL.md` 使用 Agent Skills 通用结构，仅包含标准的 `name`、`description` 和 Markdown 指令。实际分析需要实时网页、正规媒体、区块浏览器和市场数据，请为所使用的客户端开启必要的互联网与工具权限。
+核心文件 `SKILL.md` 使用 Agent Skills 通用结构。实际分析需要实时访问新闻网页和社交媒体，请为客户端开启必要的互联网与浏览工具权限。
 
 ## 安装到 Codex
 
@@ -55,26 +65,19 @@ git clone https://github.com/zexichen1407-code/analyze-meme-event-coin.git \
   "$HOME/.agents/skills/analyze-meme-event-coin"
 ```
 
-关键路径：
-
-```text
-~/.agents/skills/analyze-meme-event-coin/SKILL.md
-```
-
 ### 验证 Codex 安装
 
-1. 新建一个 Codex 任务。
-2. 在 CLI/IDE 中输入 `/skills`，确认出现 `analyze-meme-event-coin`。
-3. 或输入 `$`，从 Skill 列表中选择它。
-4. 发送：
+新建一个 Codex 任务，然后发送：
 
 ```text
 使用 $analyze-meme-event-coin 分析这个 CA：<contract-address>
 ```
 
+也可以直接发送 CA；当任务与 Skill 描述匹配时，Codex 可以自动加载它。
+
 ## 安装到 Claude Code
 
-Claude Code 的个人 Skill 目录是 `~/.claude/skills/<skill-name>/SKILL.md`。安装后，该 Skill 可用于你本机的所有 Claude Code 项目。
+Claude Code 的个人 Skill 目录是 `~/.claude/skills/<skill-name>/SKILL.md`。
 
 ### Windows PowerShell
 
@@ -98,17 +101,9 @@ git clone https://github.com/zexichen1407-code/analyze-meme-event-coin.git \
   "$HOME/.claude/skills/analyze-meme-event-coin"
 ```
 
-关键路径：
-
-```text
-~/.claude/skills/analyze-meme-event-coin/SKILL.md
-```
-
 ### 验证 Claude Code 安装
 
-如果安装时 `~/.claude/skills` 已存在，Claude Code 通常会实时发现新 Skill；如果本次才首次创建顶层 `skills` 目录，请重启 Claude Code。
-
-在 Claude Code 中输入：
+如果本次才首次创建 `~/.claude/skills`，请重启 Claude Code。在 Claude Code 中输入：
 
 ```text
 /skills
@@ -120,17 +115,15 @@ git clone https://github.com/zexichen1407-code/analyze-meme-event-coin.git \
 /analyze-meme-event-coin <contract-address>
 ```
 
-也可以不使用斜杠命令，直接说：
+也可以直接说：
 
 ```text
-请分析这个 Meme coin 的 CA：<contract-address>，判断现实事件热度、龙头地位、分流和风险。
+请根据社交媒体和大型媒体文章，还原这个 CA 背后事件的完整叙事、转折和未来路径：<contract-address>
 ```
-
-Claude 会根据 Skill 的 `description` 判断是否自动加载。
 
 ## 安装到 Claude.ai
 
-Claude.ai 使用打包后的 ZIP。不要直接上传 GitHub 自动生成的源码 ZIP，请使用仓库 Release 中已经按 Claude 要求整理好的安装包：
+Claude.ai 使用打包后的 ZIP。不要上传 GitHub 自动生成的源码 ZIP，请使用 Release 中按 Claude 目录规范整理好的安装包：
 
 [下载 analyze-meme-event-coin.zip](https://github.com/zexichen1407-code/analyze-meme-event-coin/releases/latest/download/analyze-meme-event-coin.zip)
 
@@ -140,20 +133,22 @@ Claude.ai 使用打包后的 ZIP。不要直接上传 GitHub 自动生成的源�
 2. 打开 Claude.ai 或 Claude Desktop 的 **Customize > Skills**。
 3. 点击 **Add**，上传 `analyze-meme-event-coin.zip`。
 4. 上传完成后启用该 Skill。
-5. 新建对话并发送：
+5. 新建对话并发送一个 CA。
 
-```text
-请分析这个 Meme coin 的 CA：<contract-address>，判断现实事件是否仍在发酵，以及它是不是当前龙头。
-```
-
-Claude.ai 的自定义 Skills 功能需要启用代码执行。Release ZIP 的顶层是 `analyze-meme-event-coin/` 文件夹，内部直接包含 `SKILL.md`，符合 Claude 的打包要求。
+Claude.ai 自定义 Skills 需要启用代码执行。ZIP 顶层是 `analyze-meme-event-coin/`，内部直接包含 `SKILL.md`。
 
 ## 如何使用
 
-### Codex
+### 直接输入 CA
 
 ```text
-使用 $analyze-meme-event-coin 分析这个 CA：0x...
+分析这个 Meme coin CA：0x...
+```
+
+### 强制调用 Codex Skill
+
+```text
+使用 $analyze-meme-event-coin 分析：0x...
 ```
 
 ### Claude Code
@@ -162,38 +157,66 @@ Claude.ai 的自定义 Skills 功能需要启用代码执行。Release ZIP 的�
 /analyze-meme-event-coin 0x...
 ```
 
-### Solana 等非 EVM 链
-
-```text
-分析这个 CA：<Solana mint address>
-```
-
-通常只需要 CA。Skill 会自行识别链；只有同一个 EVM 地址在多条链上都存在、无法唯一确认时，才会继续询问所在链。
+通常只需要 CA。只有同一个 EVM 地址在多条链上都存在、无法唯一确认时，Skill 才会继续询问链。
 
 ## 分析流程
 
 Skill 会依次完成：
 
-1. **身份核验**：识别链、名称、ticker、创建时间、部署者和主要交易池。
-2. **现实母题追溯**：确认币对应的人物、动物、图片、口号或社会事件。
-3. **权威新闻搜索**：搜索现实事件本身，不要求新闻出现币名或 CA。
-4. **发酵度判断**：区分加速发酵、持续发酵、停滞、结束、降温或证据不足。
-5. **龙头与分流**：分别判断存量龙头、增量龙头，并寻找同名、跨链和新转折版本。
-6. **自身风险**：检查合约权限、大户卖出、LP、流动性、刷量和社区风险。
-7. **外部冲击**：检查市场清算、交易所、公链、稳定币、监管和注意力迁移事件。
-8. **传导结论**：把新闻事实、市场推断、失效条件和缺失证据分开输出。
+1. **CA 身份映射**：只确认链、名称、ticker 和现实事件，不做合约审计。
+2. **叙事起源**：找到最早事件、最早一手材料和它成为 Meme 的原因。
+3. **完整时间线**：从首次出现追到当前，而不是只看最近新闻。
+4. **关键转折**：主动寻找嘲讽、质疑、走红、举报、下架、回应、澄清和反转。
+5. **社交与媒体热度**：观察原创内容、跨平台扩散、二创、评论方向和大型媒体跟进。
+6. **当前主流叙事**：说明公众现在相信什么、争论什么，哪些旧说法已被替代。
+7. **叙事龙头与分流**：按故事绑定和社交注意力比较同名、跨链及新转折版本。
+8. **未来路径**：给出触发条件、领先信号和失效条件。
+9. **注意力风险**：检查切割、证伪、下架、敏感化和其他热点抢夺。
+
+预期结果不是一句“还在发酵”，而是一条可验证的故事链，例如：
+
+```text
+最初被嘲讽 → 意外走红 → 被要求下架 → 当事方回应 → 新证据出现 → 舆论反转 → 当前争议点
+```
+
+每个节点都会尽量附上发生时间、来源、当时公众解释，以及它如何改变后续叙事。
+
+## 热度如何判断
+
+热度只看帖子和文章中的内容信号：
+
+- 是否有新的事实、回应、冲突、处理或反转；
+- 是否从一个平台扩展到多个平台和人群；
+- 是否有大型媒体、头部账号、机构或品牌加入；
+- 是否持续出现原创报道、独立跟进和新二创；
+- 评论焦点、关键词和公众解释是否发生变化；
+- 新节点是否越来越密集。
+
+点赞、转发、浏览量和热搜排名只能作为辅助证据。负面舆论不等于没有热度：嘲讽、抵制和下架争议也可能推动故事扩散，但必须标明情绪方向。
+
+## 叙事龙头是什么意思
+
+这里的“龙头”不是市值最大，而是：
+
+- 最早且持续绑定核心故事；
+- 最贴合当前主流版本和最新转折；
+- 在社交讨论中最容易与该事件形成关联；
+- 获得当事人、原作者、核心传播者或头部账号提及；
+- 社区对其“正统版本”形成相对稳定共识。
+
+可能的结论包括：当前叙事龙头、历史原始版本但注意力已迁移、多版本分裂、目标币绑定较弱、证据不足。
 
 ## 结果应该如何理解
 
-Skill 不会把“新闻还在发酵”直接等同于“币价一定上涨”。最终结论会区分：
+Skill 会把以下内容分开：
 
-- 事件继续发酵，目标币仍是龙头；
-- 事件继续发酵，但新增资金被竞争币分流；
-- 叙事有效，但币本身存在合约或流动性风险；
-- 现实热度仍在，但币圈整体风险正在压制价格；
-- 当前证据不足，无法确认目标币会受益。
+- **事实**：有一手材料或可靠媒体支持；
+- **社交说法**：正在传播但尚未完全确认；
+- **分析推断**：基于传播变化做出的判断；
+- **未来路径**：等待触发条件验证的情景；
+- **缺失证据**：当前无法确认的关键环节。
 
-这是一套研究与风险识别流程，不构成投资建议。
+这是一套叙事研究与注意力风险识别流程，不构成投资建议。
 
 ## 更新 Skill
 
@@ -217,42 +240,21 @@ macOS / Linux：
 git -C "$HOME/.claude/skills/analyze-meme-event-coin" pull
 ```
 
-Claude.ai 版本请从 Releases 下载新的 ZIP 后重新上传。更新后如果行为没有变化，请重启对应客户端。
+Claude.ai 版本请下载最新 Release ZIP 后重新上传。更新后如果行为没有变化，请重启客户端。
 
 ## 常见问题
 
-### Codex 找不到 Skill
-
-检查：
-
-```text
-$HOME/.agents/skills/analyze-meme-event-coin/SKILL.md
-```
-
-### Claude Code 找不到 Skill
-
-检查：
-
-```text
-$HOME/.claude/skills/analyze-meme-event-coin/SKILL.md
-```
-
-然后运行 `/skills`。如果安装前不存在 `~/.claude/skills` 顶层目录，请重启 Claude Code。
-
-### Claude.ai 上传失败
-
-- 使用 Releases 中的 `analyze-meme-event-coin.zip`，不要上传散落文件；
-- 不要先解压 ZIP；
-- 确认 ZIP 中第一层是 `analyze-meme-event-coin/`，其内部直接包含 `SKILL.md`；
-- 确认 Claude 账户已启用自定义 Skills 和代码执行。
-
 ### 为什么媒体报道没有提币？
 
-这是设计目标，不是错误。Skill 追踪现实 Meme 母题的后续发展，再单独判断注意力是否可能传导到目标币。
+这是设计目标。Skill 先追踪现实 Meme 母题的完整发展，再判断目标币是否真正占据这个叙事。
+
+### 为什么不检查合约和资金？
+
+当前版本专门研究叙事、社交传播和媒体演化。合约安全、链上资金和交易结构属于另一类分析，不会混入热度结论。
 
 ### 为什么不能直接判断一定上涨？
 
-现实事件热度只是第一层。目标币还可能被竞争币分流，或者受到大户卖出、流动性不足、合约权限、市场清算和注意力迁移等影响。
+现实事件有热度，不代表注意力一定传导到目标币。目标币可能绑定较弱，也可能被更贴合最新转折的版本分流。
 
 ## 仓库结构
 
@@ -264,7 +266,7 @@ analyze-meme-event-coin/
     └── openai.yaml
 ```
 
-其中 `agents/openai.yaml` 用于 Codex 的界面元数据；Claude 安装包只需要通用的 `SKILL.md`。
+`agents/openai.yaml` 用于 Codex 界面元数据；Claude 安装包只需要通用的 `SKILL.md`。
 
 ## 官方参考
 
